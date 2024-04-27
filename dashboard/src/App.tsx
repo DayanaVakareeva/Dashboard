@@ -2,9 +2,16 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { auth } from './config/firebase-confog'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [ appState, setAppState] = useState({
+    user: null,
+    userData: null
+  })
+
+  const [user, loading, error] = useAuthState(auth)
 
   return (
     <>
