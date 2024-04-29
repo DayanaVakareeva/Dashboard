@@ -1,11 +1,10 @@
 import { useContext, useEffect, useState, FormEvent } from "react";
 import { loginUser } from "../../services/auth.service";
-import { AppContext } from "../../contex/AppContex";
+import { AppContext } from "../../context/AppContext.tsx";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import toast from 'react-hot-toast';
-// import "./Login.css"
+import SignIn from "../../components/SignIn/SignIn.tsx";
+
 
 interface UserCredentials {
     user: string;
@@ -15,6 +14,7 @@ interface UserCredentials {
   export default function Login() {
     const { user, setAppState } = useContext(AppContext);
     const [showPassword, setShowPassword] = useState(false);
+    const [isSignInFormOpen, setSignInFormOpen] = useState(false)
   
     const [form, setForm] = useState({
       email: '',
@@ -29,6 +29,16 @@ interface UserCredentials {
         navigate(location.state?.from.pathname || '/')
       }
     }, [user]);
+
+    useEffect(() => {
+      // add the class to the body when the component is mounted
+      document.body.classList.add('body-with-background');
+  
+      // remove the class from the body when the component is unmounted
+      return () => {
+        document.body.classList.remove('body-with-background');
+      };
+    }, []);
   
     const updateForm = (prop: string) => (e: FormEvent<HTMLInputElement>) => {
       setForm({ ...form, [prop]: e.currentTarget.value });
@@ -54,33 +64,39 @@ interface UserCredentials {
     }
 
     return (
-        <div className="background-wrapper">
-            <div className="login">
-                <h1 className="login-header">User Login</h1>
+      <div className="flex min-h-screen justify-center items-center">
+        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 max-w-xl mx-auto">
+            <div className="mt-10 sm:w-full sm:max-w-">
+                <h1 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">User Login</h1>
                 <form onSubmit={e => e.preventDefault()}>
-                    <div className="form-group mb-2 ">
-                        <label htmlFor="email" className="form-label">Your e-mail: </label>
-                        <input autoComplete="off" className="form-control" type="email" name="email" id="email" value={form.email}
+                    <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                        <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Your e-mail: </label>
+                        <input autoComplete="off" className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                          type="email" name="email" id="email" value={form.email}
                             onChange={updateForm('email')} />
                     </div>
-                    <div className="form-group mb-1">
-                        <label htmlFor="password" className="form-label">Password: </label>
-                        <input autoComplete="off" className="form-control"
+                    
+                    <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                        <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">Password: </label>
+                        <input autoComplete="off" className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             type={showPassword ? 'text' : 'password'} name="password" id="password"
                             value={form.password}
                             onChange={updateForm('password')}
                         />
-                        {/* <span className="password-span"><FontAwesomeIcon
-                            onClick={() => setShowPassword(!showPassword)}
-                            icon={showPassword ? faEye : faEyeSlash} />
-                        </span> */}
+                    </div>            
+                    <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">                    
+                    <button type="submit" onClick={login} className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                     Login</button>
                     </div>
-                    <Link className='forgot-password' to='/forgot-password'>Forgot password?</Link>
-                    <button type="submit" onClick={login} className="login-button">Login</button>
                     <br />
-                    <p className="mb-2">Don`t have an account ?<Link className="sign-up" to='/create-account'> Sign up</Link></p>
+                    <div className="mt-10 text-center text-sm text-gray-500">Don`t have an account? <button onClick={() => setSignInFormOpen(true)}>Sign In
+                    </button>
+                    {isSignInFormOpen && (
+                    <SignIn onClose={() => setSignInFormOpen(false)} />
+                    )}</div>
                 </form>
             </div >
         </div>
+      </div>
     )
 }
