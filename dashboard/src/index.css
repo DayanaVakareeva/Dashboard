@@ -1,8 +1,12 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap');
 
-
+.body-with-background {
+  @apply bg-no-repeat bg-center bg-cover min-h-screen;
+  background-image: url('./constants/pieChart1.jpg'); /* replace with the path to your image */
+}
 /* :root {
   background-color: blue;
 } */

@@ -10,6 +10,9 @@ export default {
       colors: {
         'dark-blue': '#020024',
         'brand-orange': '#FF6900',
+      },
+      fontFamily: {
+        'rubik': ['Rubik', 'sans-serif']
       }
     },
   },
