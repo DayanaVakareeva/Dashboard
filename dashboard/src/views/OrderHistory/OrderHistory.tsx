@@ -1,5 +1,5 @@
 import OrderList from "../../components/OrderList/OrderList"
-import { AppContext } from "../../context/AppContext"
+import AppContext from "../../context/AppContext"
 import { useContext } from 'react';
 
 export default function OrderHistory() {
