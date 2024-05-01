@@ -9,6 +9,7 @@ export default {
     extend: {
       colors: {
         'dark-blue': '#020024',
+        'text-yellow': '#DECE9A',
         'brand-orange': '#FF6900',
       },
       fontFamily: {

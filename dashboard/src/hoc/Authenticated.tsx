@@ -1,6 +1,6 @@
 import { useContext, ReactNode } from "react";
 import { Navigate, useLocation } from 'react-router-dom';
-import { AppContext } from "../contex/AppContex";
+import { AppContext } from "../context/AppContext";
 
 /**
  * `AuthenticatedProps` is an interface that defines the shape of the props for the `Authenticated` component.
