@@ -10,7 +10,10 @@ export default {
       colors: {
         'dark-blue': '#020024',
         'text-yellow': '#DECE9A',
-        'brand-orange': '#FF6900',
+        'dark-red': '#7B1226',
+        'inner-blue': '#161738',
+        'button-green': '#2F8024',
+        'salmon': '#FA8072',
       },
       fontFamily: {
         'rubik': ['Rubik', 'sans-serif']
