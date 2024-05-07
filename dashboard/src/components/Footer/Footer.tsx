@@ -3,7 +3,10 @@ import XIcon from '@mui/icons-material/X';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import GitHubIcon from '@mui/icons-material/GitHub';
 
-
+/**
+ * Footer component
+ * @returns JSX.Element
+ */
 export default function Footer() {
     
     return (
