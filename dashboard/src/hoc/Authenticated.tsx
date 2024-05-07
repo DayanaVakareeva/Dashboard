@@ -1,6 +1,6 @@
 import { useContext, ReactNode } from "react";
 import { Navigate, useLocation } from 'react-router-dom';
-import { AppContext } from "../context/AppContext";
+import AppContext from "../context/AppContext";
 
 /**
  * `AuthenticatedProps` is an interface that defines the shape of the props for the `Authenticated` component.
@@ -18,10 +18,14 @@ interface AuthenticatedProps {
  * @returns {ReactElement} A `Navigate` component if the user is not authenticated, or the `children` prop if the user is authenticated.
  */
   export default function Authenticated({ children }: AuthenticatedProps) {
-    const { user } = useContext(AppContext);
+    const { user, loading } = useContext(AppContext);
     const location = useLocation();
   
-    if (!user) {
+    if (loading) {
+      return <p>Loading...</p>; // Replace this with your actual loading indicator
+    }
+  
+    if (!user && !loading) {
       return <Navigate replace to="/login" state={{ from: location }} />
     }
   
