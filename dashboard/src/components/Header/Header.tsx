@@ -36,7 +36,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
       pageTitle = 'Create Account';
       break;
     default:
-      pageTitle = 'Login';
+      pageTitle = 'Dashboard';
   }
 
   // Use the provided title or the determined page title

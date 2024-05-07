@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import Header from './components/Header/Header';
 import Login from './views/Login/Login';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useLocation, } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Sidebar from './components/SideBar/Sidebar';
 import Footer from './components/Footer/Footer';
 import OrderHistory from './views/OrderHistory/OrderHistory';
@@ -23,12 +23,28 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
  * - The main content of the application, which can include various components and views based on the application's routing and state.
  */
 const AppContent = React.memo(function AppContent() {
-  console.log('AppContent rendered');
+  
   const location = useLocation();
   const isLoginPage = location.pathname === '/login';
   const isSignInPage = location.pathname === '/sign-in';
+ 
+  const navigate = useNavigate();
 
-  const backgroundImage = isLoginPage || isSignInPage ? `url(${pieChart1})` : 'none';
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        navigate('/login');
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [navigate]);
+
+  const backgroundImage = isLoginPage || isSignInPage  ? `url(${pieChart1})` : 'none';
 
   return (
     <div
@@ -58,7 +74,7 @@ const AppContent = React.memo(function AppContent() {
             />
             <Route path="/login" element={<Login />} />
             <Route path="/sign-in" element={<SignIn />} />
-            <Route path="/" element={<Login />} />
+            <Route path="*" element={<Dashboard/>} />
           </Routes>
         </div>
       </div>
@@ -84,8 +100,9 @@ const AppContent = React.memo(function AppContent() {
  * - The `AppContent` component, which renders the rest of the application.
  */
 function App() {
-  console.log('App rendered');
+  
   const [appState, setAppState] = useState({user: null, userData: null, loading: true});
+  
 
   useEffect(() => {
     const auth = getAuth();
@@ -103,7 +120,7 @@ function App() {
   }, []);
 
   if (appState.loading) {
-    return <div>Loading...</div>; // Or your custom loading component
+    return <div>Loading...</div>; 
   }
 
   return (

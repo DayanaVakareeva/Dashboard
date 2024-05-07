@@ -22,7 +22,7 @@ interface AuthenticatedProps {
     const location = useLocation();
   
     if (loading) {
-      return <p>Loading...</p>; // Replace this with your actual loading indicator
+      return <p>Loading...</p>;
     }
   
     if (!user && !loading) {
