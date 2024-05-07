@@ -11,17 +11,17 @@ import cheerio from 'cheerio';
 import Tooltip from '@mui/material/Tooltip';
 
 /**
- * OrderList is a component that fetches and displays a list of orders.
+ * TopOrders is a component that fetches and displays a list of top orders.
  * Each order includes an Order ID, Customer name, Date, Total amount, and Actions.
  * The Actions column includes a "View Details" tooltip that appears on hover.
  *
  * @component
  * @example
  * return (
- *   <OrderList />
+ *   <TopOrders />
  * )
  */
-export default function OrderList() {
+export default function TopOrders() {
   const appState = useContext(AppContext);
   const userId = appState.user?.uid;
 
@@ -38,7 +38,7 @@ export default function OrderList() {
   useEffect(() => {
 
   /**
- * fetchOrders is a function that fetches the list of orders from the server.
+ * fetchOrders is a function that fetches the list of top orders from the server.
  * It uses the Cheerio library to parse the HTML response and extract the order data.
  * The order data is then set in the component's state.
  *
@@ -47,7 +47,7 @@ export default function OrderList() {
  * @throws Will throw an error if the network response is not ok.
  */
     async function fetchOrders() {
-      const response = await fetch(`http://localhost:3000/orders`);
+      const response = await fetch(`http://localhost:3000/top-orders`);
 
       if (!response.ok) {
         console.log('Response text:', await response.text());
@@ -78,16 +78,25 @@ export default function OrderList() {
       console.error('Error fetching orders:', error)
     );
   }, []);
+
   return (
-    <TableContainer component={Paper} sx={{ border: '1px solid #E1A189' }}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+    <TableContainer
+      component={Paper}
+      sx={{
+        backgroundColor: '#161738',
+        borderRadius: '10px',
+      }}
+    >
+      <Table sx={{ minWidth: '500px' }} aria-label="simple table">
         <TableHead sx={{ backgroundColor: '#E1A189' }}>
           <TableRow>
             <TableCell
               sx={{
                 color: '#161738',
                 fontWeight: 'bold',
-                border: '1px solid #161738',
+                paddingRight: '4px',
+                paddingLeft: '4px',
+                width: '100px',
               }}
             >
               Order ID
@@ -96,17 +105,19 @@ export default function OrderList() {
               sx={{
                 color: '#161738',
                 fontWeight: 'bold',
-                border: '1px solid #161738',
+                paddingRight: '4px',
+                paddingLeft: '4px',
               }}
             >
               Customer
             </TableCell>
             <TableCell
-            align="center"
+              align="center"
               sx={{
                 color: '#161738',
                 fontWeight: 'bold',
-                border: '1px solid #161738',
+                paddingRight: '4px',
+                paddingLeft: '4px',
               }}
             >
               Date
@@ -116,7 +127,8 @@ export default function OrderList() {
               sx={{
                 color: '#161738',
                 fontWeight: 'bold',
-                border: '1px solid #161738',
+                paddingRight: '4px',
+                paddingLeft: '4px',
               }}
             >
               Total
@@ -126,39 +138,75 @@ export default function OrderList() {
               sx={{
                 color: '#161738',
                 fontWeight: 'bold',
-                border: '1px solid #161738',
+                paddingRight: '5px',
+                paddingLeft: '4px',
+                width: '100px',
               }}
             >
               Actions
             </TableCell>
           </TableRow>
         </TableHead>
-
-        <TableBody
-          sx={{
-            backgroundColor: '#161738',
-            borderRadius: '10px',
-          }}
-        >
-{rows.map((row) => (
-  <TableRow key={row.orderId}>
-    <TableCell component="th" scope="row" sx={{ color: '#E1A189', padding: '12px 16px' }}>
-      {row.orderId}
-    </TableCell>
-    <TableCell sx={{ color: '#E1A189', padding: '10px 16px' }}>{row.customer}</TableCell>
-    <TableCell align="center" sx={{ color: '#E1A189', padding: '10px 16px' }}>
-      {new Date(row.date * 1000).toLocaleDateString()}
-    </TableCell>
-    <TableCell align="center" sx={{ color: '#E1A189', border: '1px solid #E1A189', padding: '10px 16px' }}>
-      ${row.total}
-    </TableCell>
-    <TableCell align="right" sx={{ color: '#E1A189', padding: '10px 16px' }}>
-        <Tooltip title="Order Details" placement="left">
-        <span style={{cursor: 'pointer'}}>View Details</span>
-        </Tooltip>
-      </TableCell>
-  </TableRow>
-))}
+        <TableBody>
+          {rows.map((row) => (
+            <TableRow key={row.orderId}>
+              <TableCell
+                component="th"
+                scope="row"
+                sx={{
+                  color: '#E1A189',
+                  paddingRight: '4px',
+                  paddingLeft: '4px',
+                  width: '100px',
+                }}
+              >
+                {row.orderId}
+              </TableCell>
+              <TableCell
+                sx={{
+                  color: '#E1A189',
+                  paddingRight: '4px',
+                  paddingLeft: '4px',
+                }}
+              >
+                {row.customer}
+              </TableCell>
+              <TableCell
+                align="center"
+                sx={{
+                  color: '#E1A189',
+                  paddingRight: '5px',
+                  paddingLeft: '4px',
+                }}
+              >
+                {new Date(row.date * 1000).toLocaleDateString()}
+              </TableCell>
+              <TableCell
+                align="center"
+                sx={{
+                  color: '#E1A189',
+                  border: '1px solid #E1A189',
+                  paddingRight: '4px',
+                  paddingLeft: '4px',
+                }}
+              >
+                ${row.total}
+              </TableCell>
+              <TableCell
+                align="right"
+                sx={{
+                  color: '#E1A189',
+                  paddingRight: '5px',
+                  paddingLeft: '4px',
+                  width: '100px',
+                }}
+              >
+                <Tooltip title="Order Details" placement="left">
+                  <span style={{ cursor: 'pointer' }}>View Details</span>
+                </Tooltip>
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </TableContainer>
